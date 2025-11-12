@@ -1,10 +1,10 @@
-package org.program.service;
+package org.program.order;
 
-public class Report {
+public class OrderReport {
     private final String company;
     private final double totalCost;
 
-    public Report(String company, double totalCost) {
+    public OrderReport(String company, double totalCost) {
         this.company = company;
         this.totalCost = totalCost;
     }
