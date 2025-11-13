@@ -4,20 +4,23 @@ import org.program.order.Order;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
-public class OrderAdapter {
+public abstract class AbstractOrderFileAdapter implements OrderFileAdapter{
 
-    static final DateTimeFormatter FORMATTER =
+    protected static final DateTimeFormatter FORMATTER =
             DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
+    private final String separator;
 
-    public static List<Order> fromString(List<String> orders) {
+    protected AbstractOrderFileAdapter(String separator) {
+        this.separator = separator;
+    }
+
+    public List<Order> getOrdersList(List<String> orders) {
         List<Order> ordersList = new ArrayList<>();
 
         for (String line : orders) {
-            String[] parts = line.split("\\|");
+            String[] parts = line.split(separator);
 
             if (parts.length != 3) continue;
 
