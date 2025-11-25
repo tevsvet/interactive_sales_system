@@ -17,7 +17,10 @@ public class OrderService {
         int step = 0;
 
         for (Order order : orders) {
-            double currentDiscount = calculateDiscount(startDiscount, stepDiscount, minDiscount, step);
+            double currentDiscount = calculateDiscount(startDiscount,
+                                                       stepDiscount,
+                                                       minDiscount,
+                                                       step);
             double cost = order.getQuantity() * costPerUnit;
             double costWithDiscount = cost * (1 - currentDiscount / 100);
             totalCompanyOrders.merge(order.getCompany(), costWithDiscount, Double::sum);
