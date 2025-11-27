@@ -31,15 +31,14 @@ public class OrderManager {
         List<Order> orderList = adapter.getOrdersList(orders);
 
         List<OrderReport> reports = orderService.getReport(orderList,
-                                                      costPerUnit,
-                                                      startDiscount,
-                                                      stepDiscount,
-                                                      minDiscount);
+                                                           costPerUnit,
+                                                           startDiscount,
+                                                           stepDiscount,
+                                                           minDiscount);
 
-        List<String> lines = new ArrayList<>();
-        for (OrderReport report : reports) {
-            lines.add(report.toString());
-        }
+        List<String> lines = reports.stream()
+                .map(OrderReport::toString)
+                .toList();
 
         FileUtil.writeLines(outputFileName, lines);
     }
