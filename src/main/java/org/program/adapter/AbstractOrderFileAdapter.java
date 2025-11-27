@@ -17,20 +17,15 @@ public abstract class AbstractOrderFileAdapter implements OrderFileAdapter{
     }
 
     public List<Order> getOrdersList(List<String> orders) {
-        List<Order> ordersList = new ArrayList<>();
-
-        for (String line : orders) {
-            String[] parts = line.split(separator);
-
-            if (parts.length != 3) continue;
-
-            LocalDateTime time = LocalDateTime.parse(parts[0], FORMATTER);
-            String company = parts[1];
-            double quantity = Double.parseDouble(parts[2]);
-
-            ordersList.add(new Order(time, company, quantity));
-        }
-        ordersList.sort(Comparator.comparing(Order::getDateTime));
-        return ordersList;
+        return orders.stream()
+                .map(line -> line.split(separator))
+                .filter(parts -> parts.length == 3)
+                .map(parts -> new Order(
+                        LocalDateTime.parse(parts[0], FORMATTER),
+                        parts[1],
+                        Double.parseDouble(parts[2])
+                ))
+                .sorted(Comparator.comparing(Order::getDateTime))
+                .toList();
     }
 }

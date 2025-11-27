@@ -27,11 +27,9 @@ public class OrderService {
             step++;
         }
 
-        List<OrderReport> reports = new ArrayList<>();
-        for (Map.Entry<String, Double> entry : totalCompanyOrders.entrySet()) {
-            reports.add(new OrderReport(entry.getKey(), entry.getValue()));
-        }
-        return reports;
+        return totalCompanyOrders.entrySet().stream()
+                .map(entry -> new OrderReport(entry.getKey(), entry.getValue()))
+                .toList();
     }
 
     private double calculateDiscount(double startDiscount,

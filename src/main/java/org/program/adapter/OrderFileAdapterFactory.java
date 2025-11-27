@@ -13,12 +13,10 @@ public class OrderFileAdapterFactory {
     }
 
     public OrderFileAdapter getAdapter(String fileName) {
-
-        for (OrderFileAdapter adapter : adapters) {
-            if (adapter.supports(fileName)) {
-                return adapter;
-            }
-        }
-        throw new UnsupportedFileFormatException("Unsupported file format: " + fileName);
+        return adapters.stream()
+                .filter(adapter -> adapter.supports(fileName))
+                .findFirst()
+                .orElseThrow(() ->
+                        new UnsupportedFileFormatException("Unsupported file format: " + fileName));
     }
 }
